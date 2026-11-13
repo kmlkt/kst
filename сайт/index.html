@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#000000">
+<title>Камера</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<video id="video" autoplay playsinline muted></video>
+<canvas id="overlay"></canvas>
+<div id="hints" class="hints" aria-live="polite"></div>
+
+<div id="topStack" class="top-stack">
+  <div id="debug" class="debug" hidden></div>
+  <div id="tagLabel" class="tag-label" hidden></div>
+  <div id="toast" class="toast" role="status" hidden></div>
+</div>
+
+<div id="bottomStack" class="bottom-stack">
+  <section id="panel" class="panel" aria-label="Проблемы" hidden>
+    <div id="prevSide" class="panel-side">
+      <button id="prevProblem" aria-label="Предыдущая проблема">‹</button>
+      <span id="prevCount" class="panel-count"></span>
+    </div>
+    <div class="panel-body" aria-live="polite">
+      <p id="panelProblem" class="panel-problem"></p>
+      <p id="panelSolution" class="panel-solution"></p>
+    </div>
+    <div id="nextSide" class="panel-side">
+      <button id="nextProblem" aria-label="Следующая проблема">›</button>
+      <span id="nextCount" class="panel-count"></span>
+    </div>
+  </section>
+</div>
+
+<div id="message" class="message">
+  <p id="messageText">Включаем камеру…</p>
+  <button id="retry" hidden>Включить камеру</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

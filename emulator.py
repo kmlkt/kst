@@ -1,4 +1,3 @@
-
 import asyncio
 from meta import PARAMETERS_META
 from models import Device, Parameter

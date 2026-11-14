@@ -1,235 +1,131 @@
+/* Общие стили и экран параметров. Стили камеры — в camera.css. */
+
 :root {
-  --line: #FFD400;
-  --problem: #FF4D4D;   /* красный для проблем в плашке */
+  color-scheme: light;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ink: #17242d;       /* обычный текст параметров */
+  --muted: #52616c;
+  --divider: #e3e8ec;
+  --error: #c4202f;     /* значение с отклонением (state: error) */
+  --warning: #9a6200;   /* значение с предупреждением (state: warning) */
 }
 
 * { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #0b1114; }
+h1, h2, p { margin: 0; }
+button { font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+[hidden] { display: none !important; }
 
-html, body {
-  margin: 0;
-  height: 100%;
-  background: #000;
-  color: #fff;
-  overflow: hidden;
-  overscroll-behavior: none;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-size: 16px;
-  -webkit-tap-highlight-color: transparent;
-}
+/* ===== Параметры: поверх камеры на весь экран ===== */
 
-/* Видео заполняет весь экран в любой ориентации; лишние края кадра обрезаются */
-video {
+.parameters {
   position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: #000;
-}
-
-/* Слой для контуров поверх видео */
-#overlay {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  touch-action: manipulation;
-}
-
-/* Подсказки возле контуров: всегда видны и не мешают касаниям */
-.hints {
-  position: fixed;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.hint {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: max-content;
-  max-width: min(240px, 70vw);
-  padding: 6px 10px;
-  background: rgba(0, 0, 0, 0.88);
-  color: var(--line);
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.35;
-}
-.hint[hidden] { display: none; }
-
-/* Верхняя часть экрана: метка QR и уведомления */
-.top-stack {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 3;
+  z-index: 20;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 12px;
-  padding-top: calc(12px + env(safe-area-inset-top, 0px));
-  padding-left: calc(12px + env(safe-area-inset-left, 0px));
-  padding-right: calc(12px + env(safe-area-inset-right, 0px));
-  pointer-events: none;
+  background: #fff;
+  color: var(--ink);
+  animation: parameters-in 0.2s ease-out;
 }
-
-.panel {
-  align-self: stretch;
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 10px 8px;
-  background: rgba(0, 0, 0, 0.88);
-  border-radius: 10px;
-  pointer-events: auto;
+@keyframes parameters-in {
+  from { transform: translateY(24px); opacity: 0; }
+  to { transform: none; opacity: 1; }
 }
-.panel[hidden] { display: none; }
+@media (prefers-reduced-motion: reduce) { .parameters { animation: none; } }
 
-.panel-body {
-  flex: 1;
-  padding: 2px 4px;
-  text-align: center;
-  min-width: 0;
-  max-height: 35vh;
-  overflow-y: auto;
-}
-
-.panel-problem {
-  margin: 0;
-  color: var(--problem);
-  font-weight: 700;
-  font-size: 1rem;
-  line-height: 1.3;
-}
-
-.panel-solution {
-  margin: 4px 0 0;
-  color: #fff;
-  font-size: 0.9375rem;
-  line-height: 1.4;
-}
-.panel-solution[hidden] { display: none; }
-
-/* Стрелка с подписью «Осталось» — по одной с каждой стороны плашки */
-.panel-side {
+/* Шапка: стрелка «назад», название насоса и его id */
+.parameters-header {
   flex: none;
-  width: 64px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  padding: 10px 16px 10px 6px;
+  padding-top: calc(10px + env(safe-area-inset-top, 0px));
+  border-bottom: 2px solid var(--ink);
 }
-.panel-side[hidden] { display: none; }
-/* Если в эту сторону ничего не осталось, стрелка пропадает, но место остаётся,
-   чтобы текст в середине не прыгал */
-.panel-side.empty { visibility: hidden; }
-
-.panel-side button {
-  width: 44px;
-  min-height: 44px;
-  padding: 0;
-  font-size: 1.625rem;
+.parameters-back {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 28px;
   line-height: 1;
 }
-
-.panel-count {
-  font-size: 0.6875rem;
-  color: rgba(255, 255, 255, 0.75);
-  white-space: nowrap;
+.parameters-back:active { background: #eef1f4; }
+.parameters-title { min-width: 0; }
+.parameters-title h2 {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.parameters-title p {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
 }
 
-/* Отладочная строка (DEBUG в script.js) */
-.debug {
-  max-width: 100%;
-  padding: 4px 8px;
-  background: rgba(0, 0, 0, 0.7);
-  border-radius: 6px;
-  font-size: 0.75rem;
-  line-height: 1.35;
-  color: #9fe870;
+.parameters-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
-.debug[hidden] { display: none; }
 
-/* Последний считанный QR-код */
-.tag-label {
-  max-width: 100%;
-  padding: 6px 12px;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  font-size: 0.875rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.tag-label[hidden] { display: none; }
-
-.toast {
-  align-self: center;
-  max-width: 100%;
-  padding: 10px 16px;
-  background: rgba(0, 0, 0, 0.75);
-  border-radius: 999px;
-  font-size: 0.9375rem;
-  text-align: center;
-}
-.toast[hidden] { display: none; }
-
-/* Нижняя часть экрана: плашка с проблемами */
-.bottom-stack {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 3;
+/* Параметры: простые строки, без карточек */
+.param-row {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 12px;
-  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-  padding-left: calc(12px + env(safe-area-inset-left, 0px));
-  padding-right: calc(12px + env(safe-area-inset-right, 0px));
-  pointer-events: none;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--divider);
 }
-
-
-button {
-  font: inherit;
+.param-label {
+  min-width: 0;
+  font-size: 16px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.param-reading { flex: none; max-width: 55%; text-align: right; }
+.param-value {
+  font-size: 16px;
   font-weight: 600;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 999px;
-  padding: 12px 20px;
-  min-height: 48px;
-  cursor: pointer;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
 }
-button:active { background: rgba(255, 255, 255, 0.25); }
-button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
-button[hidden] { display: none; }
-
-.message {
-  position: fixed;
-  inset: 0;
-  z-index: 4;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 32px;
-  text-align: center;
-  line-height: 1.45;
-  background: #000;
+/* При отклонении цветом выделяется только само значение */
+.param-row.error .param-value { color: var(--error); }
+.param-row.warning .param-value { color: var(--warning); }
+/* Норма под значением */
+.param-norm {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
 }
-.message[hidden] { display: none; }
-.message p { margin: 0; max-width: 28em; }
 
+.parameters-note { padding: 18px; color: var(--muted); font-size: 15px; line-height: 1.5; }
+.parameters-error { padding: 18px; font-size: 15px; line-height: 1.5; }
+.parameters-error p { color: var(--error); }
+.parameters-error button {
+  margin-top: 12px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid #b8c4cd;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.parameters :focus-visible { outline: 3px solid #164acb; outline-offset: 2px; }

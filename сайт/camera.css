@@ -1,0 +1,275 @@
+/* Экран камеры: видео, контуры, плашка проблем и плашка оборудования. */
+
+:root {
+  --cam-warning: #FFD400;   /* жёлтые предупреждения */
+  --cam-problem: #FF4D4D;   /* красные проблемы */
+}
+
+/* Камера занимает весь экран */
+.camera-viewport {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #0b1114;
+  color: #fff;
+}
+
+.camera-viewport video,
+.camera-viewport canvas,
+.cam-hints {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.camera-viewport video { object-fit: cover; background: #0b1114; }
+.camera-viewport canvas { z-index: 1; }
+
+/* Подсказки возле жёлтых контуров */
+.cam-hints { z-index: 2; pointer-events: none; }
+.cam-hint {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: max-content;
+  max-width: min(240px, 70vw);
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.88);
+  color: var(--cam-warning);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+/* Приглашение навести камеру: видно, пока оборудование не определено */
+.scan-prompt {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  pointer-events: none;
+}
+.scanner-frame {
+  width: min(58vw, 220px);
+  aspect-ratio: 1;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 22px;
+  box-shadow: 0 0 0 200vmax rgba(0, 0, 0, 0.4);   /* затемнение вокруг рамки */
+}
+.scan-prompt h1,
+.scanner-description {
+  position: relative;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+.scan-prompt h1 { margin-top: 22px; font-size: 20px; letter-spacing: -0.02em; }
+.scanner-description { margin-top: 9px; color: rgba(255, 255, 255, 0.88); font-size: 14px; line-height: 1.5; }
+
+/* Верх камеры: плашка оборудования, отладочная строка и уведомления */
+.cam-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  padding-top: calc(12px + env(safe-area-inset-top, 0px));
+  pointer-events: none;
+}
+/* В режиме отладки верхний блок виден и поверх сообщения «нет камеры» */
+.debug-mode .cam-top { z-index: 5; }
+.cam-debug {
+  max-width: 100%;
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 6px;
+  font: 12px/1.45 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color: #9fe870;
+  white-space: pre-line;
+  pointer-events: auto;
+  user-select: text;
+}
+
+/* Кнопки отладки. Выше сообщения о камере, чтобы файл можно было выбрать и без камеры. */
+.cam-debugbar {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  pointer-events: auto;
+}
+.cam-debug-button {
+  min-height: 36px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.cam-debug-button.active { background: #9fe870; color: #0b1114; border-color: #9fe870; }
+.cam-toast {
+  align-self: center;
+  max-width: 100%;
+  padding: 10px 16px;
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 999px;
+  font-size: 15px;
+  text-align: center;
+}
+
+/* Низ камеры: плашка с красными проблемами */
+.cam-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
+}
+.cam-panel {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 8px;
+  background: rgba(0, 0, 0, 0.88);
+  border-radius: 10px;
+  pointer-events: auto;
+}
+.cam-panel-body {
+  flex: 1;
+  min-width: 0;
+  max-height: 30vh;
+  overflow-y: auto;
+  padding: 2px 4px;
+  text-align: center;
+}
+.cam-panel-problem {
+  color: var(--cam-problem);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.3;
+}
+.cam-panel-solution {
+  margin-top: 4px;
+  color: #fff;
+  font-size: 15px;
+  line-height: 1.4;
+}
+/* Стрелка с подписью «Осталось» — по одной с каждой стороны плашки */
+.cam-panel-side {
+  flex: none;
+  width: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+/* Если в эту сторону ничего не осталось, стрелка пропадает, но место остаётся */
+.cam-panel-side.empty { visibility: hidden; }
+.cam-panel-side .cam-button {
+  width: 44px;
+  min-height: 44px;
+  padding: 0;
+  font-size: 26px;
+  line-height: 1;
+}
+.cam-panel-count {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.75);
+  white-space: nowrap;
+}
+
+.cam-button {
+  font-weight: 600;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  padding: 12px 20px;
+  min-height: 48px;
+}
+.cam-button:active { background: rgba(255, 255, 255, 0.25); }
+.cam-button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* Сообщение о камере (нет доступа, нет камеры) */
+.cam-message {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 32px;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.45;
+  background: #0b1114;
+}
+.cam-message p { max-width: 28em; }
+
+/* Плашка оборудования: название и id слева, стрелка и счётчики справа. Открывает параметры. */
+.equipment-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 64px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.88);
+  color: #fff;
+  text-align: left;
+  pointer-events: auto;
+}
+.equipment-card:active { background: rgba(40, 40, 40, 0.92); }
+.equipment-card:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.equipment-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.equipment-name {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.equipment-id {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.equipment-side { flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.equipment-arrow { font-size: 22px; line-height: 1; }
+.equipment-counts { display: flex; gap: 6px; }
+/* Счётчики: жёлтый — параметры с предупреждением, красный — с отклонением */
+.count-badge {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 22px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.count-badge.warning { background: var(--cam-warning); color: #1a1400; }
+.count-badge.error { background: var(--cam-problem); color: #1a0000; }

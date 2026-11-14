@@ -22,7 +22,7 @@ OIL_WEIGHTS = "models/best_oil.pt"     # модель масла (детекци
 
 PUMP_CLASS = "pump"                # имя класса насоса в модели деталей
 PUMP_IMGSZ, RUST_IMGSZ, OIL_IMGSZ = 1024, 640, 640   # как при обучении каждой модели
-PUMP_CONF, RUST_CONF, OIL_CONF = 0.40, 0.25, 0.25
+PUMP_CONF, RUST_CONF, OIL_CONF = 0.40, 0.25, 0.50
 
 OIL_MARGIN = 0.5      # "рядом": на сколько расширить рамку насоса, в долях её размера
 RUST_MIN_AREA = 50    # пятно ржавчины меньше стольких пикселей на насосе отбрасывается
@@ -101,6 +101,10 @@ def analyze(img):
         if not pumps:
             return result  # без насоса ржавчину и масло не ищем
         pump = max(pumps, key=lambda r: r["confidence"])
+        # Контур насоса — выпуклая оболочка всех точек маски. masks.xy может склеивать
+        # несколько кусков маски в одну ломаную с пересечениями; оболочка даёт один
+        # замкнутый контур без них. По этому же контуру строится маска насоса.
+        pump["polygon"] = cv2.convexHull(np.float32(pump["polygon"])).reshape(-1, 2)
         pump_mask = _fill((h, w), pump["polygon"])
         pump_area = int(pump_mask.sum())
         if pump_area == 0:

@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "scenario_id": "01_corrosion_confirmed",
+  "title_ru": "Коррозия крепления: подтверждение",
+  "synthetic": true,
+  "equipment": "Чёрно-бордовый насос с исходных фотографий kst/насос/1.jpg–4.jpg; точная модель не устанавливалась",
+  "hypothesis": "corrosion",
+  "target_component_ru": "Нижний угол чёрной опорной пластины у привода и крепёжный болт",
+  "ground_truth": {
+    "corrosion": true,
+    "oil_leak": false,
+    "final_outcome": "confirmed_defect",
+    "scope": "visible signs at the inspected target; not a certification of whole-equipment serviceability"
+  },
+  "frame_count": 3,
+  "continuity_rule_ru": "Один и тот же насос и участок. Повторная съёмка меняет наблюдаемость; ремонта или развития дефекта между кадрами не предусмотрено.",
+  "frames": [
+    {
+      "index": 1,
+      "file": "01.png",
+      "stage": "distant",
+      "image_quality_issues": [
+        "too_far",
+        "target_too_small"
+      ],
+      "target_assessability": "insufficient",
+      "observed_evidence_ru": "Общий вид с большого расстояния: поверхность крепления слишком мала для оценки.",
+      "expected_output": {
+        "decision": "retake_required",
+        "visible_defect": "undetermined",
+        "response_ru": "Недостаточно деталей для оценки крепления. Подойдите к опорной пластине возле привода.",
+        "retake_required": true,
+        "next_action_ru": "Подойдите к опорной пластине возле привода и снимите крепление крупнее.",
+        "optional_followup": false,
+        "next_frame": "02.png"
+      }
+    },
+    {
+      "index": 2,
+      "file": "02.png",
+      "stage": "closer",
+      "image_quality_issues": [],
+      "target_assessability": "sufficient_for_visible_signs",
+      "observed_evidence_ru": "На нижнем углу той же опорной пластины виден локальный рыжий участок с нарушением покрытия.",
+      "expected_output": {
+        "decision": "confirmed_defect",
+        "visible_defect": "corrosion",
+        "response_ru": "На нижнем углу опорной пластины видны признаки коррозии. При необходимости снимите участок крупнее для фиксации.",
+        "retake_required": false,
+        "next_action_ru": "При необходимости снимите участок крупно для фиксации состояния покрытия.",
+        "optional_followup": true,
+        "next_frame": "03.png"
+      }
+    },
+    {
+      "index": 3,
+      "file": "03.png",
+      "stage": "detail",
+      "image_quality_issues": [],
+      "target_assessability": "sufficient_for_visible_signs",
+      "observed_evidence_ru": "Крупно видны сухая шероховатая ржавчина и отслаивание чёрной краски возле болта.",
+      "expected_output": {
+        "decision": "confirmed_defect",
+        "visible_defect": "corrosion",
+        "response_ru": "Коррозия опорной пластины подтверждается визуально: видны ржавчина и отслаивание покрытия.",
+        "retake_required": false,
+        "next_action_ru": null,
+        "optional_followup": false,
+        "next_frame": null
+      }
+    }
+  ],
+  "use_note_ru": "Ожидаемые ответы — авторские аннотации синтетических кадров, а не результаты запуска модели. Не передавайте ground_truth и expected_output модели при оценке; разделяйте обучающую и проверочную выборки по целым сценариям. Метаданные не являются разметкой сегментации."
+}

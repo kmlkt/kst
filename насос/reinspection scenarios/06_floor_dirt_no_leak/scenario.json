@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "scenario_id": "06_floor_dirt_no_leak",
+  "title_ru": "Загрязнение пола: утечка не подтверждена",
+  "synthetic": true,
+  "equipment": "Чёрно-бордовый насос с исходных фотографий kst/насос/1.jpg–4.jpg; точная модель не устанавливалась",
+  "hypothesis": "oil_leak",
+  "target_component_ru": "Приводной узел, его нижние стыки и участок пола под ним",
+  "ground_truth": {
+    "corrosion": false,
+    "oil_leak": false,
+    "final_outcome": "no_visible_defect",
+    "scope": "visible signs at the inspected target; not a certification of whole-equipment serviceability"
+  },
+  "frame_count": 4,
+  "continuity_rule_ru": "Один и тот же насос и участок. Повторная съёмка меняет наблюдаемость; ремонта или развития дефекта между кадрами не предусмотрено.",
+  "frames": [
+    {
+      "index": 1,
+      "file": "01.png",
+      "stage": "distant_dark_floor_mark",
+      "image_quality_issues": [
+        "too_far",
+        "target_detail_insufficient"
+      ],
+      "target_assessability": "insufficient",
+      "observed_evidence_ru": "С большого расстояния тёмный след на полу рядом с рамой может вызвать подозрение; стыки не оценить.",
+      "expected_output": {
+        "decision": "retake_required",
+        "visible_defect": "undetermined",
+        "response_ru": "Стыки слишком мелкие для оценки. Подойдите к приводу и покажите соединения над тёмным участком пола.",
+        "retake_required": true,
+        "next_action_ru": "Подойдите к приводу и покажите стыки над тёмным участком пола.",
+        "optional_followup": false,
+        "next_frame": "02.png"
+      }
+    },
+    {
+      "index": 2,
+      "file": "02.png",
+      "stage": "closer_drive_and_mark",
+      "image_quality_issues": [
+        "target_detail_insufficient"
+      ],
+      "target_assessability": "insufficient",
+      "observed_evidence_ru": "Приближение показывает привод и тёмный сухой след рядом с рамой; нужен осмотр соединения.",
+      "expected_output": {
+        "decision": "retake_required",
+        "visible_defect": "undetermined",
+        "response_ru": "Для проверки утечки снимите нижние соединения привода крупным планом.",
+        "retake_required": true,
+        "next_action_ru": "Снимите нижние соединения привода крупным планом.",
+        "optional_followup": false,
+        "next_frame": "03.png"
+      }
+    },
+    {
+      "index": 3,
+      "file": "03.png",
+      "stage": "dry_joint_detail",
+      "image_quality_issues": [],
+      "target_assessability": "sufficient_for_visible_signs",
+      "observed_evidence_ru": "Крупный план показывает сухие соединения привода: капель, влажного следа и потёков нет.",
+      "expected_output": {
+        "decision": "no_visible_defect",
+        "visible_defect": null,
+        "response_ru": "На осмотренном стыке привода видимых признаков утечки нет: соединение сухое.",
+        "retake_required": false,
+        "next_action_ru": "При необходимости покажите общий вид привода и тот же участок пола для сверки.",
+        "optional_followup": true,
+        "next_frame": "04.png"
+      }
+    },
+    {
+      "index": 4,
+      "file": "04.png",
+      "stage": "opposite_angle_floor_check",
+      "image_quality_issues": [],
+      "target_assessability": "sufficient_for_visible_signs",
+      "observed_evidence_ru": "Контекстный проверочный кадр показывает тот же сухой след обуви/резины на полу и отсутствие потёка от привода.",
+      "expected_output": {
+        "decision": "no_visible_defect",
+        "visible_defect": null,
+        "response_ru": "Тёмный участок на полу выглядит как сухой след обуви/резины. Видимого потёка от привода к нему нет.",
+        "retake_required": false,
+        "next_action_ru": null,
+        "optional_followup": false,
+        "next_frame": null
+      }
+    }
+  ],
+  "use_note_ru": "Ожидаемые ответы — авторские аннотации синтетических кадров, а не результаты запуска модели. Не передавайте ground_truth и expected_output модели при оценке; разделяйте обучающую и проверочную выборки по целым сценариям. Метаданные не являются разметкой сегментации."
+}

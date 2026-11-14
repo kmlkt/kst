@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "scenario_id": "05_corrosion_dark_occluded",
+  "title_ru": "Ночной осмотр крепления: коррозия подтверждена",
+  "synthetic": true,
+  "equipment": "Чёрно-бордовый насос с исходных фотографий kst/насос/1.jpg–4.jpg; точная модель не устанавливалась",
+  "hypothesis": "corrosion",
+  "target_component_ru": "Нижний угол торцевой чёрной пластины у бордового цилиндра",
+  "ground_truth": {
+    "corrosion": true,
+    "oil_leak": false,
+    "final_outcome": "confirmed_defect",
+    "scope": "visible signs at the inspected target; not a certification of whole-equipment serviceability"
+  },
+  "frame_count": 4,
+  "continuity_rule_ru": "Один и тот же насос и участок. Повторная съёмка меняет наблюдаемость; ремонта или развития дефекта между кадрами не предусмотрено.",
+  "frames": [
+    {
+      "index": 1,
+      "file": "01.png",
+      "stage": "dark_occluded_distant",
+      "image_quality_issues": [
+        "underexposed",
+        "occlusion"
+      ],
+      "target_assessability": "insufficient",
+      "observed_evidence_ru": "Ночной кадр недоэкспонирован; передняя труба перекрывает торцевой узел.",
+      "expected_output": {
+        "decision": "retake_required",
+        "visible_defect": "undetermined",
+        "response_ru": "Темно, нужный узел перекрыт трубой. Подойдите к торцевому креплению со стороны бордового цилиндра.",
+        "retake_required": true,
+        "next_action_ru": "Подойдите к торцевому креплению со стороны бордового цилиндра.",
+        "optional_followup": false,
+        "next_frame": "02.png"
+      }
+    },
+    {
+      "index": 2,
+      "file": "02.png",
+      "stage": "closer_still_occluded",
+      "image_quality_issues": [
+        "occlusion",
+        "underexposed"
+      ],
+      "target_assessability": "insufficient",
+      "observed_evidence_ru": "Оператор подошёл ближе, но труба по-прежнему закрывает нужный нижний угол пластины.",
+      "expected_output": {
+        "decision": "retake_required",
+        "visible_defect": "undetermined",
+        "response_ru": "Труба закрывает нижний угол пластины. Сместитесь в сторону и переснимите этот участок.",
+        "retake_required": true,
+        "next_action_ru": "Сместитесь в сторону: труба перекрывает нижний угол пластины.",
+        "optional_followup": false,
+        "next_frame": "03.png"
+      }
+    },
+    {
+      "index": 3,
+      "file": "03.png",
+      "stage": "angle_changed_low_light",
+      "image_quality_issues": [
+        "underexposed"
+      ],
+      "target_assessability": "limited",
+      "observed_evidence_ru": "После смещения камеры нужный угол открыт: заметен рыжий участок, но детали плохо освещены.",
+      "expected_output": {
+        "decision": "suspected_defect",
+        "visible_defect": "undetermined",
+        "response_ru": "На открывшемся углу заметен подозрительный рыжий участок. Подсветите его и снимите крупнее для проверки фактуры.",
+        "retake_required": true,
+        "next_action_ru": "Подсветите нижний угол пластины и снимите его крупно.",
+        "optional_followup": false,
+        "next_frame": "04.png"
+      }
+    },
+    {
+      "index": 4,
+      "file": "04.png",
+      "stage": "lit_corrosion_detail",
+      "image_quality_issues": [],
+      "target_assessability": "sufficient_for_visible_signs",
+      "observed_evidence_ru": "С подсветкой крупно видны коррозия и отслаивание краски возле нижней гайки; монтажные болты на месте.",
+      "expected_output": {
+        "decision": "confirmed_defect",
+        "visible_defect": "corrosion",
+        "response_ru": "На нижнем углу торцевой пластины визуально подтверждаются коррозия и отслаивание краски.",
+        "retake_required": false,
+        "next_action_ru": null,
+        "optional_followup": false,
+        "next_frame": null
+      }
+    }
+  ],
+  "use_note_ru": "Ожидаемые ответы — авторские аннотации синтетических кадров, а не результаты запуска модели. Не передавайте ground_truth и expected_output модели при оценке; разделяйте обучающую и проверочную выборки по целым сценариям. Метаданные не являются разметкой сегментации."
+}

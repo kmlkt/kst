@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "scenario_id": "02_corrosion_reflection_cleared",
+  "title_ru": "Рыжий оттенок от света: коррозии нет",
+  "synthetic": true,
+  "equipment": "Чёрно-бордовый насос с исходных фотографий kst/насос/1.jpg–4.jpg; точная модель не устанавливалась",
+  "hypothesis": "corrosion",
+  "target_component_ru": "Сухая чёрная опорная пластина возле привода",
+  "ground_truth": {
+    "corrosion": false,
+    "oil_leak": false,
+    "final_outcome": "no_visible_defect",
+    "scope": "visible signs at the inspected target; not a certification of whole-equipment serviceability"
+  },
+  "frame_count": 3,
+  "continuity_rule_ru": "Один и тот же насос и участок. Повторная съёмка меняет наблюдаемость; ремонта или развития дефекта между кадрами не предусмотрено.",
+  "frames": [
+    {
+      "index": 1,
+      "file": "01.png",
+      "stage": "ambiguous_warm_light",
+      "image_quality_issues": [
+        "color_cast",
+        "target_detail_insufficient"
+      ],
+      "target_assessability": "insufficient",
+      "observed_evidence_ru": "Тёплый свет создаёт рыжеватый отблеск на чёрном креплении; фактура участка не различима.",
+      "expected_output": {
+        "decision": "retake_required",
+        "visible_defect": "undetermined",
+        "response_ru": "Рыжеватый участок может быть отражением тёплого света. Подойдите ближе и измените угол съёмки.",
+        "retake_required": true,
+        "next_action_ru": "Подойдите к креплению и измените ракурс: рыжий оттенок может быть отражением света.",
+        "optional_followup": false,
+        "next_frame": "02.png"
+      }
+    },
+    {
+      "index": 2,
+      "file": "02.png",
+      "stage": "changed_angle",
+      "image_quality_issues": [
+        "color_cast"
+      ],
+      "target_assessability": "insufficient",
+      "observed_evidence_ru": "После приближения на пластине остаются гладкие золотистые отражения от ламп.",
+      "expected_output": {
+        "decision": "retake_required",
+        "visible_defect": "undetermined",
+        "response_ru": "Отражение света мешает оценить цвет поверхности. Добавьте нейтральную подсветку и снимите крепление крупно.",
+        "retake_required": true,
+        "next_action_ru": "Подсветите крепление нейтральным светом и снимите поверхность крупно.",
+        "optional_followup": false,
+        "next_frame": "03.png"
+      }
+    },
+    {
+      "index": 3,
+      "file": "03.png",
+      "stage": "neutral_light_detail",
+      "image_quality_issues": [],
+      "target_assessability": "sufficient_for_visible_signs",
+      "observed_evidence_ru": "При нейтральной подсветке видна целая сухая чёрная краска; признаков коррозии на осмотренном креплении нет.",
+      "expected_output": {
+        "decision": "no_visible_defect",
+        "visible_defect": null,
+        "response_ru": "На осмотренном креплении видимых признаков коррозии нет. Рыжий оттенок был связан с освещением.",
+        "retake_required": false,
+        "next_action_ru": null,
+        "optional_followup": false,
+        "next_frame": null
+      }
+    }
+  ],
+  "use_note_ru": "Ожидаемые ответы — авторские аннотации синтетических кадров, а не результаты запуска модели. Не передавайте ground_truth и expected_output модели при оценке; разделяйте обучающую и проверочную выборки по целым сценариям. Метаданные не являются разметкой сегментации."
+}

@@ -1,0 +1,273 @@
+{
+  "generator": "built-in image_gen",
+  "common_prompt": "Use case: compositing / sequential industrial inspection photography.\nOutput: exactly ONE raw photorealistic engineering photograph, landscape 1536x1024, no caption, text overlays, arrows, boxes, collage, watermark or people.\nSubject identity: the SAME pump in the supplied four photos, NOT a conventional motor/centrifugal pump: long straight black central cylindrical housing, long deep burgundy chamber with four slender external black tie rods, black rounded end cap, rectangular black mounting plates/feet, small bolted rectangular top cover, original small dark rear drive unit with original linkage/guard geometry, silver upward coupling and smaller silver axial end coupling. Keep these component relationships, proportions, geometry and colors faithful. Do not add motor fins, extra chambers or ports or remove bolts.\nInstall on a low steel skid, sound hoses attached at the two original silver process-fluid couplings, hoses routed clear of the target. The small rear drive casting is the same as original, with its original joints and bolts.\nThis belongs to a repeat-photograph sequence of ONE static pump in ONE unchanged location. No repairs, cleaning, deterioration, growing spills, moving hardware or relocated stains between images. Only camera distance, viewpoint, focus and an explicitly requested portable light may change. Respect the scenario's physical ground truth exactly. A poor-quality shot must actually be poor enough to prevent a confident diagnosis, while still recognizably showing the target equipment. Good final shots must resolve the named surface/joint.\nReal industrial photograph, correct scale, contact shadows, plausible exposure. No staged warning lighting, cartoon defects, polished advertisement, unrelated faults or unsafe rubble.",
+  "scenarios": [
+    {
+      "id": "01_corrosion_confirmed",
+      "title": "Коррозия крепления: подтверждение",
+      "hypothesis": "corrosion",
+      "outcome": "confirmed_defect",
+      "target": "Нижний угол чёрной опорной пластины у привода и крепёжный болт",
+      "truth": "Localized orange-brown CORROSION on the original black pump mounting foot next to the small rear drive: a single irregular 6-cm patch of flaking black paint with granular rust around the front lower bolt and continuing up the adjacent lower vertical corner. Exactly this patch and bolt stay in the same physical location in every frame. No oil, no other defects.",
+      "scene": "Daytime industrial side bay: pale gray painted brick wall, a blue handrail and horizontal gray pipe behind, gray dry concrete floor with a few dusty bootprints. Pump on a low gray steel skid, black drive on left and burgundy chamber to right.",
+      "primary": 4,
+      "frames": [
+        {
+          "n": 1,
+          "kind": "distant",
+          "decision": "retake_required",
+          "quality": [
+            "too_far",
+            "target_too_small"
+          ],
+          "action": "Подойдите к опорной пластине возле привода и снимите крепление крупнее.",
+          "shot": "First poor operator shot from about 6 metres away. Wide whole workshop view; the entire pump is only 20 percent of image width in lower centre. The known small rust patch remains physically present on its rear mounting foot but is too small to resolve confidently. Do NOT enlarge the rust or add extra rust anywhere."
+        },
+        {
+          "n": 2,
+          "kind": "closer",
+          "decision": "suspected_defect",
+          "quality": [
+            "target_detail_insufficient"
+          ],
+          "action": "Снимите болт и нижний угол пластины крупным планом, сохранив резкость.",
+          "shot": "Operator has approached to roughly 1.6 metres. Sharp contextual view of the rear half of the pump: small drive unit, original black vertical mounting bracket, lower bolt and black main body. The SAME rust patch becomes a small clearly localized rusty area, still not a macro shot, with the rest of pump intact."
+        },
+        {
+          "n": 3,
+          "kind": "detail",
+          "decision": "confirmed_defect",
+          "quality": [],
+          "action": null,
+          "shot": "Final close-up at roughly 45 cm of the rear mounting bracket's lower corner and the front lower bolt. Include some original black drive barrel and black main body for identity. The same single orange-brown granular rust patch and lifting black paint around that specific bolt are sharply visible. Natural neutral daylight, dry rough texture, not an oil leak."
+        }
+      ]
+    },
+    {
+      "id": "02_corrosion_reflection_cleared",
+      "title": "Рыжий оттенок от света: коррозии нет",
+      "hypothesis": "corrosion",
+      "outcome": "no_visible_defect",
+      "target": "Сухая чёрная опорная пластина возле привода",
+      "truth": "NO corrosion and NO oil anywhere on the pump. Pump has uniformly intact dry black paint and burgundy chamber. A warm amber wall lamp and tan wall create an orange-gold reflection on the smooth original black rear mounting bracket; the warm coloration is light, not granular rust, chips or brown paint. Physical surfaces never change.",
+      "scene": "Windowless beige masonry utility room at night. Two warm amber caged wall lights, a blue valve far behind, dry lightly dusty beige concrete floor. Pump on low dark gray rails. Existing lights remain fixed; a neutral portable inspection light is introduced only in the final frame.",
+      "primary": 4,
+      "frames": [
+        {
+          "n": 1,
+          "kind": "ambiguous_warm_light",
+          "decision": "retake_required",
+          "quality": [
+            "color_cast",
+            "target_detail_insufficient"
+          ],
+          "action": "Подойдите к креплению и измените ракурс: рыжий оттенок может быть отражением света.",
+          "shot": "First medium-wide operator photo at 2.8 metres; full pump about half image width. Rear mounting plate shows an ambiguous orange-gold highlight from the warm wall lights. It is NOT actual rust. Detail too small and strongly color-cast to decide. Preserve healthy surfaces."
+        },
+        {
+          "n": 2,
+          "kind": "changed_angle",
+          "decision": "retake_required",
+          "quality": [
+            "color_cast"
+          ],
+          "action": "Подсветите крепление нейтральным светом и снимите поверхность крупно.",
+          "shot": "A closer 1-metre oblique rear-bracket view from 25 degrees to the right of the first viewing direction. The golden specular highlight shifts across the intact black bracket because of viewing angle, exposing some dry smooth black paint; warm wall light still casts enough yellow to warrant checking. No rust texture, no flakes, no oil."
+        },
+        {
+          "n": 3,
+          "kind": "neutral_light_detail",
+          "decision": "no_visible_defect",
+          "quality": [],
+          "action": null,
+          "shot": "Final sharp close-up at 45 cm of the rear black mounting bracket and its bolts under a neutral-white portable inspection light, with the beige wall and warm lamp recognizable as defocused background. Perfectly intact dry smooth black paint, bolts intact, neutral metallic highlights, no rust, flakes, powder or oil. Portable light removes the misleading warm highlight without changing any physical surface."
+        }
+      ]
+    },
+    {
+      "id": "03_oil_leak_confirmed",
+      "title": "Утечка у привода: подтверждение",
+      "hypothesis": "oil_leak",
+      "outcome": "confirmed_defect",
+      "target": "Нижний стык малого приводного блока и цилиндрического корпуса привода",
+      "truth": "One localized fresh OIL LEAK at the underside circular joint between the original small dark rear drive block and its cylindrical coupling/drive housing. A small translucent amber-brown wet bead on that seam, a short glossy viscous trickle down the adjacent black housing and one hanging amber drop at the lower edge. Leak does not grow or move between frames. Not at either silver process-fluid port. No rust or damage elsewhere and no large floor spill.",
+      "scene": "Neutral-lit factory service alcove, gray metal cabinet against concrete wall and one blue pipe in background, gray dry concrete floor, low charcoal skid. Soft overcast daylight from high left window and steady neutral ceiling fill. No workers.",
+      "primary": 4,
+      "frames": [
+        {
+          "n": 1,
+          "kind": "motion_blur",
+          "decision": "retake_required",
+          "quality": [
+            "motion_blur",
+            "target_detail_insufficient"
+          ],
+          "action": "Зафиксируйте камеру и переснимите нижний стык привода без смаза.",
+          "shot": "First operator photo while moving: whole rear half of pump shown, clearly noticeable moderate camera-motion blur across the entire image so fine seams and droplets cannot be judged. The actual same small oil bead remains at the underside drive seam; it is not a giant visible oil spill. Scene and shape recognizable, fine detail unreadable."
+        },
+        {
+          "n": 2,
+          "kind": "steady_context",
+          "decision": "suspected_defect",
+          "quality": [
+            "target_detail_insufficient"
+          ],
+          "action": "Подойдите ближе к влажному участку и снимите стык сбоку.",
+          "shot": "Second steady sharp photo from 1.1 metres, oblique view of complete original rear drive block and nearby black barrel/mount. A small dark glossy wet-looking strip is visible along the SAME underside drive seam, but it occupies a small part of the picture and needs a close inspection to separate fluid from reflections. No rust and no new oil patches."
+        },
+        {
+          "n": 3,
+          "kind": "oil_detail",
+          "decision": "confirmed_defect",
+          "quality": [],
+          "action": null,
+          "shot": "Final sharp macro-like close-up of original rear drive block-to-cylinder underside seam. Show enough original bolt geometry and black drive casting to identify that precise joint. A small physically convincing translucent amber oil bead emerging from the seam, a short glossy wet trail, and a single hanging viscous drop on its lower lip are distinctly visible, with specular meniscus and oily sheen. All other surfaces black and dry, no corrosion. Real photo, not exaggerated pouring oil."
+        }
+      ]
+    },
+    {
+      "id": "04_oil_glare_cleared",
+      "title": "Блик на корпусе: утечки нет",
+      "hypothesis": "oil_leak",
+      "outcome": "no_visible_defect",
+      "target": "Боковая поверхность чёрного основного корпуса под верхней крышкой",
+      "truth": "NO oil leak or corrosion. The original black central pump housing is dry intact glossy enamel with natural mild casting texture. A broad curved reflection of a fixed cool-white LED fixture looks like a wet patch from the first angle; it shifts with camera angle. Never paint a permanent white stripe or oil stain on the housing. No drops, wet seam, trickle or pool.",
+      "scene": "Nighttime technical room, off-white tiled wall, one horizontal blue pipe and cool-white overhead strip light, dark window at far side, dry gray floor. Pump on a low blue skid, original hoses connected at two silver ports. Cool-white light fixed in all shots.",
+      "primary": 1,
+      "frames": [
+        {
+          "n": 1,
+          "kind": "specular_glare",
+          "decision": "retake_required",
+          "quality": [
+            "glare",
+            "target_detail_insufficient"
+          ],
+          "action": "Измените угол съёмки корпуса, чтобы убрать блик от светильника.",
+          "shot": "First medium-wide view of entire pump from 2 metres. Strong curved broad specular reflection across the black central barrel creates an ambiguous wet-looking highlight under the top inspection cover. No actual fluid. The glare partially masks paint texture, prompting another angle."
+        },
+        {
+          "n": 2,
+          "kind": "shifted_glare",
+          "decision": "retake_required",
+          "quality": [
+            "target_detail_insufficient"
+          ],
+          "action": "Снимите боковую поверхность и нижнюю кромку корпуса крупным планом.",
+          "shot": "Second contextual view from about 80 cm and 35 degrees lower/lateral than first view. The fixture reflection visibly shifts toward upper side of barrel, revealing a dry lower surface. Original cover, top silver inlet and part of burgundy chamber remain visible for orientation, no real wet marks. Still contextual rather than a close surface inspection."
+        },
+        {
+          "n": 3,
+          "kind": "dry_surface_detail",
+          "decision": "no_visible_defect",
+          "quality": [],
+          "action": null,
+          "shot": "Final sharp close-up of black central barrel side and lower edge below rectangular top cover, from a non-glare angle. Dry intact glossy black enamel, mild normal casting texture, clean tight seam and no droplets or oil tracks. Part of cover and inlet base visible as landmarks. The fixed overhead lamp appears as a narrow ordinary reflection off to the side, not covering target. Background blue pipe and tiles match unchanged scene."
+        }
+      ]
+    },
+    {
+      "id": "05_corrosion_dark_occluded",
+      "title": "Ночной осмотр крепления: коррозия подтверждена",
+      "hypothesis": "corrosion",
+      "outcome": "confirmed_defect",
+      "target": "Нижний угол торцевой чёрной пластины у бордового цилиндра",
+      "truth": "One compact patch of orange-brown flaky CORROSION around the outer lower corner and adjacent mounting bolt of the original black end plate at the BURGUNDY CYLINDER END, near the axial silver outlet. Rough granular rust and lifted black paint only at that single 5-cm spot on the pump end plate, not on the base skid or rear drive. Exactly same patch and location at every camera step. No oil leak.",
+      "scene": "Old brick workshop at night, cool dim fluorescent ceiling strips and a dark-green machine blurred in background, dusty dry concrete floor. Pump on a low gray skid, original hoses. A fixed gray vertical foreground service pipe stands 35 cm in front of the burgundy end, initially blocking the lower corner; it is not part of pump and never moves. Operator walks around it.",
+      "primary": 2,
+      "frames": [
+        {
+          "n": 1,
+          "kind": "dark_occluded_distant",
+          "decision": "retake_required",
+          "quality": [
+            "underexposed",
+            "occlusion",
+            "too_far"
+          ],
+          "action": "Подойдите к торцевому креплению со стороны бордового цилиндра.",
+          "shot": "Initial poor night photo from 4 metres. Pump is about 30 percent of width, underexposed but recognizable. Fixed foreground gray service pipe partly blocks the bottom corner of the black end plate near the burgundy cylinder. Rust patch still exists behind this occlusion but cannot be assessed. No huge dramatic visible rust."
+        },
+        {
+          "n": 2,
+          "kind": "closer_still_occluded",
+          "decision": "retake_required",
+          "quality": [
+            "occlusion",
+            "underexposed"
+          ],
+          "action": "Сместитесь в сторону: труба перекрывает нижний угол пластины.",
+          "shot": "Operator approaches to 1.3 metres. Burgundy cylinder end, rods, black rounded end and axial silver coupling larger and correctly matched. Foreground pipe STILL partially blocks the lower corner and bolt with rust. Night lighting still dim, image not sharp enough at obstructed spot; no flash or inspection light yet."
+        },
+        {
+          "n": 3,
+          "kind": "angle_changed_low_light",
+          "decision": "suspected_defect",
+          "quality": [
+            "underexposed"
+          ],
+          "action": "Подсветите нижний угол пластины и снимите его крупно.",
+          "shot": "Operator steps sideways around the same fixed gray pipe, at 70 cm from the burgundy end. Lower end-plate corner and mounting bolt now unobstructed but dim/noisy; a compact brown rough patch is suggested at that SAME lower corner, not a new location. No extra lamp yet. Foreground pipe now at far edge; do not remove it from the environment."
+        },
+        {
+          "n": 4,
+          "kind": "lit_corrosion_detail",
+          "decision": "confirmed_defect",
+          "quality": [],
+          "action": null,
+          "shot": "Final sharp close-up from 40 cm with added neutral-white portable inspection light on the SAME lower black end-plate corner and its original mounting bolt near burgundy cylinder and silver axial outlet. Rough granular orange-brown rust, lifting black paint and irregular patch edges unmistakably visible at just that 5-cm location. Show burgundy cylinder edge, tie-rod nut and mounting-foot geometry as orientation landmarks; pipe remains out of line of sight. No oil and no other damage."
+        }
+      ]
+    },
+    {
+      "id": "06_floor_dirt_no_leak",
+      "title": "Загрязнение пола: утечка не подтверждена",
+      "hypothesis": "oil_leak",
+      "outcome": "no_visible_defect",
+      "target": "Приводной узел, его нижние стыки и участок пола под ним",
+      "truth": "NO oil or fluid leak anywhere on the pump. All joints and original rear drive castings dry and intact, black paint unbroken. A fixed irregular MATTE dark-gray/brown dry rubber/boot scuff lies on the concrete 30 cm behind the rear skid foot. It is dusty dry floor dirt, not fluid and not a wet pool. It stays identical in shape and physical position throughout sequence. No damp trail connects pump to floor.",
+      "scene": "Daytime used industrial service bay with beige-gray brick wall, blue workbench and yellow rail in background, dry dusty gray floor. Pump on low dark-green skid. Soft daylight from high window. The same small matte floor scuff is behind rear support; no workers or tools being used.",
+      "primary": 4,
+      "frames": [
+        {
+          "n": 1,
+          "kind": "distant_dark_floor_mark",
+          "decision": "retake_required",
+          "quality": [
+            "too_far",
+            "target_detail_insufficient"
+          ],
+          "action": "Подойдите к приводу и покажите стыки над тёмным участком пола.",
+          "shot": "First far photo at 5 metres, whole pump only 25 percent of picture width. The small matte dark floor scuff behind rear support merges visually with the support shadow and might suggest a leak from a distance. It remains dry dust, not a glossy spill. No artificial giant oil puddle. Joints too small to inspect."
+        },
+        {
+          "n": 2,
+          "kind": "closer_drive_and_mark",
+          "decision": "retake_required",
+          "quality": [
+            "target_detail_insufficient"
+          ],
+          "action": "Снимите нижние соединения привода крупным планом.",
+          "shot": "Operator approaches to about 1.4 metres, contextual rear-drive view includes same original rear drive casting and its mounting foot with SAME dry floor scuff behind. Distinguish dark dry floor dirt and support shadow, but lower joint still partly obscured by rear mounting bracket. No droplets or flowing fluid."
+        },
+        {
+          "n": 3,
+          "kind": "dry_joint_detail",
+          "decision": "no_visible_defect",
+          "quality": [],
+          "action": "Покажите тот же узел с другой стороны и участок пола для сверки.",
+          "shot": "Third shot is a sharp close-up from 45 cm on the original rear-drive underside seam from the side, revealing dry intact black casting, tight bolts and no wet bead, no drip or fluid trail. Background is consistent beige-gray wall and defocused blue workbench, with part of green support and same matte dusty scuff at lower edge. This shot finds no visible leak at inspected joint."
+        },
+        {
+          "n": 4,
+          "kind": "opposite_angle_floor_check",
+          "decision": "no_visible_defect",
+          "quality": [],
+          "action": null,
+          "shot": "Final verification photo from opposite oblique side at about 80 cm shows same rear-drive underside, green skid foot and original dry matte floor scuff behind it. Show clearly unbroken dry dust between joint and floor mark, granular floor dust crossing the mark, no wet sheen, no drops, no oil. It is a dry dark boot/rubber scuff only. Do not clean or move the mark; change camera angle only. Original pump geometry and background workbench unchanged."
+        }
+      ]
+    }
+  ],
+  "purpose": "Initial generation instructions, NOT final frame labels. Use each scenario.json for reviewed annotations."
+}

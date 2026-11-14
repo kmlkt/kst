@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "generator": "built-in image_gen",
+  "synthetic": true,
+  "scenario_count": 6,
+  "image_count": 20,
+  "frame_counts": [
+    3,
+    3,
+    3,
+    3,
+    4,
+    4
+  ],
+  "confirmed_defect_scenarios": 3,
+  "no_visible_defect_scenarios": 3,
+  "image_format": "PNG",
+  "image_dimensions": [
+    1536,
+    1024
+  ],
+  "decisions": {
+    "retake_required": "Недостаточно данных: нужна повторная съёмка.",
+    "suspected_defect": "Есть подозрительные признаки: нужен уточняющий кадр.",
+    "confirmed_defect": "Видны признаки заданного дефекта.",
+    "no_visible_defect": "На осмотренном участке видимых признаков заданной проблемы не обнаружено."
+  },
+  "inspection_policy_ru": "У некоторых серий признаки уже различимы на втором кадре. Дополнительный крупный план является необязательной фиксацией, а не обязательным ожиданием последнего кадра.",
+  "scenarios": [
+    {
+      "id": "01_corrosion_confirmed",
+      "title_ru": "Коррозия крепления: подтверждение",
+      "metadata": "01_corrosion_confirmed/scenario.json",
+      "frames": [
+        "01_corrosion_confirmed/01.png",
+        "01_corrosion_confirmed/02.png",
+        "01_corrosion_confirmed/03.png"
+      ],
+      "hypothesis": "corrosion",
+      "outcome": "confirmed_defect"
+    },
+    {
+      "id": "02_corrosion_reflection_cleared",
+      "title_ru": "Рыжий оттенок от света: коррозии нет",
+      "metadata": "02_corrosion_reflection_cleared/scenario.json",
+      "frames": [
+        "02_corrosion_reflection_cleared/01.png",
+        "02_corrosion_reflection_cleared/02.png",
+        "02_corrosion_reflection_cleared/03.png"
+      ],
+      "hypothesis": "corrosion",
+      "outcome": "no_visible_defect"
+    },
+    {
+      "id": "03_oil_leak_confirmed",
+      "title_ru": "Утечка у привода: подтверждение",
+      "metadata": "03_oil_leak_confirmed/scenario.json",
+      "frames": [
+        "03_oil_leak_confirmed/01.png",
+        "03_oil_leak_confirmed/02.png",
+        "03_oil_leak_confirmed/03.png"
+      ],
+      "hypothesis": "oil_leak",
+      "outcome": "confirmed_defect"
+    },
+    {
+      "id": "04_oil_glare_cleared",
+      "title_ru": "Блик на корпусе: утечки нет",
+      "metadata": "04_oil_glare_cleared/scenario.json",
+      "frames": [
+        "04_oil_glare_cleared/01.png",
+        "04_oil_glare_cleared/02.png",
+        "04_oil_glare_cleared/03.png"
+      ],
+      "hypothesis": "oil_leak",
+      "outcome": "no_visible_defect"
+    },
+    {
+      "id": "05_corrosion_dark_occluded",
+      "title_ru": "Ночной осмотр крепления: коррозия подтверждена",
+      "metadata": "05_corrosion_dark_occluded/scenario.json",
+      "frames": [
+        "05_corrosion_dark_occluded/01.png",
+        "05_corrosion_dark_occluded/02.png",
+        "05_corrosion_dark_occluded/03.png",
+        "05_corrosion_dark_occluded/04.png"
+      ],
+      "hypothesis": "corrosion",
+      "outcome": "confirmed_defect"
+    },
+    {
+      "id": "06_floor_dirt_no_leak",
+      "title_ru": "Загрязнение пола: утечка не подтверждена",
+      "metadata": "06_floor_dirt_no_leak/scenario.json",
+      "frames": [
+        "06_floor_dirt_no_leak/01.png",
+        "06_floor_dirt_no_leak/02.png",
+        "06_floor_dirt_no_leak/03.png",
+        "06_floor_dirt_no_leak/04.png"
+      ],
+      "hypothesis": "oil_leak",
+      "outcome": "no_visible_defect"
+    }
+  ],
+  "evaluation_note_ru": "Это синтетические иллюстративные последовательности для сценариев пересъёмки. Указаны ожидаемые решения и наблюдаемые признаки; модель на них не запускалась. Координатной разметки или масок нет."
+}

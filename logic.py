@@ -15,19 +15,21 @@ def check_parameter(device: Device, parameter: Parameter) -> Parameter_Dto:
         norm = meta.minimum_warning
         if meta.minimum is not None and parameter.value < meta.minimum:
             state = 'error'
+            norm = meta.minimum
     elif meta.maximum_warning is not None and parameter.value > meta.maximum_warning:
         state = 'warning'
         operator = '≤'
         norm = meta.maximum_warning
         if meta.maximum is not None and parameter.value > meta.maximum:
             state = 'error'
+            norm = meta.maximum
 
     return Parameter_Dto(
         parameter=parameter.parameter,
-        value=str(parameter.value),
+        value=f"{parameter.value:.2f}".rstrip("0").rstrip("."),
         unit = meta.unit,
         state=state,
-        norm=str(norm),
+        norm=f"{norm:.2f}".rstrip("0").rstrip(".") if norm != "" and norm != None else "",
         operator=operator
     )
 

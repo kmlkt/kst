@@ -26,30 +26,30 @@ async def spawn_errors():
 
     async def too_low(p: str):
         while params[p].value >= meta[p].minimum - meta[p].minimum / 5:
-            params[p].value -= meta[p].minimum / 10
+            params[p].value -= meta[p].minimum / 5
             await params[p].save()
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(1)
         await asyncio.sleep(2)
         
     
     async def too_high(p: str):
         while params[p].value <= meta[p].maximum + meta[p].maximum / 5:
-            params[p].value += meta[p].maximum / 10
+            params[p].value += meta[p].maximum  / 5
             await params[p].save()
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(1)
         await asyncio.sleep(2)
     
     async def is_normal(p: str):
         if meta[p].minimum is not None:
             while params[p].value <= meta[p].minimum + meta[p].minimum / 5:
-                params[p].value += meta[p].minimum / 10
+                params[p].value += meta[p].minimum  / 5
                 await params[p].save()
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(1)
         if meta[p].maximum is not None:
             while params[p].value >= meta[p].maximum - meta[p].maximum / 5:
-                params[p].value -= meta[p].maximum / 10
+                params[p].value -= meta[p].maximum / 5
                 await params[p].save()
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(1)
         await asyncio.sleep(2)
     
 

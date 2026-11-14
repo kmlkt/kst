@@ -1,5 +1,8 @@
 datasets/
 runs/
+! models/m.pt
+! models/Basic_YOLO11_v1.pt
+! models/best_oil.pt
 models/
 
 # Byte-compiled / optimized / DLL files

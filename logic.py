@@ -1,4 +1,4 @@
-from dtos import Error_Dto, Parameter_Dto
+from dtos import Error_Dto, Parameter_Dto, Point_Dto
 from meta import ParameterMeta, PARAMETERS_META
 from models import Device, Parameter
 
@@ -35,7 +35,7 @@ def check_parameter(device: Device, parameter: Parameter) -> Parameter_Dto:
 
 
 
-def find_errors(device: Device, parameters: list[Parameter]) -> list[Error_Dto]:
+def find_errors(device: Device, parameters: list[Parameter], oil: list[Point_Dto], corr: list[Point_Dto]) -> list[Error_Dto]:
     params = {x.parameter: x.value for x in parameters}
     meta = PARAMETERS_META[device.model]
 
@@ -57,7 +57,8 @@ def find_errors(device: Device, parameters: list[Parameter]) -> list[Error_Dto]:
         errors.append(Error_Dto(
             code="smaz", 
             label="Проблема со смазкой подшипников или их металлический износ",
-            advice="Проверить систему смазки, при необходимости добавить/заменить самзку. Запланировать замену подшипника"
+            advice="Проверить систему смазки, при необходимости добавить/заменить самзку. Запланировать замену подшипника",
+            points=[]
             ),
         )
 
@@ -65,7 +66,8 @@ def find_errors(device: Device, parameters: list[Parameter]) -> list[Error_Dto]:
         errors.append(Error_Dto(
             code="kavit", 
             label="Кавитация",
-            advice="Немедленно проверить условия всасывания. Кавитация разрушает рабочее колесо"
+            advice="Немедленно проверить условия всасывания. Кавитация разрушает рабочее колесо",
+            points=[]
             ),
         )
 
@@ -73,7 +75,8 @@ def find_errors(device: Device, parameters: list[Parameter]) -> list[Error_Dto]:
         errors.append(Error_Dto(
             code="rascentr", 
             label="Расцентровка валов (соосность нарушена)",
-            advice="Выполнить проверку и коррекцию соосности насоса и двигателя лазерным методом"
+            advice="Выполнить проверку и коррекцию соосности насоса и двигателя лазерным методом",
+            points=[]
             ),
         )
 
@@ -81,7 +84,8 @@ def find_errors(device: Device, parameters: list[Parameter]) -> list[Error_Dto]:
         errors.append(Error_Dto(
             code="iznos", 
             label="Внутренний износ проточной части (без критических механических повреждений)",
-            advice="Плановый ремонт. Заказать запасные части (рабочее колесо, уплотнительные кольца) для следующего планового останова."
+            advice="Плановый ремонт. Заказать запасные части (рабочее колесо, уплотнительные кольца) для следующего планового останова.",
+            points=[]
             ),
         )
 
@@ -89,25 +93,26 @@ def find_errors(device: Device, parameters: list[Parameter]) -> list[Error_Dto]:
         errors.append(Error_Dto(
             code="interval", 
             label="Достигнут регламентный межремонтный интервал",
-            advice="Провести ТО-2: замена масла в подшипниковых узлах"
+            advice="Провести ТО-2: замена масла в подшипниковых узлах",
+            points=[]
             ),
         )
 
-    # TODO
-    if too_high("Вибрация подшипникового узла") and too_high("Температура подшипникового узла"):
+    if too_high("Вибрация подшипникового узла") and too_high("Температура подшипникового узла") and len(oil) > 0:
         errors.append(Error_Dto(
             code="leakage", 
             label="Утечка с сопутствующим перегревом узла",
-            advice="Немедленно перевести насос в резерв"
+            advice="Немедленно перевести насос в резерв",
+            points=oil
             ),
         )
 
-    #TODO
-    if too_high("Вибрация низкочастотная"):
+    if too_high("Вибрация низкочастотная") and len(corr) > 0:
         errors.append(Error_Dto(
             code="looseness", 
             label="Вибрация вызвана ослаблением посадки",
-            advice="Протянуть болты и выполнить проверку соосности"
+            advice="Протянуть болты и выполнить проверку соосности",
+            points=corr
             ),
         )
 
@@ -115,7 +120,8 @@ def find_errors(device: Device, parameters: list[Parameter]) -> list[Error_Dto]:
         errors.append(Error_Dto(
             code="oil", 
             label="Свойства масла ухудшены, что вызывает перегрев",
-            advice="Запланировать замену масла и промывку подшипникового щита в течение 48 часов"
+            advice="Запланировать замену масла и промывку подшипникового щита в течение 48 часов",
+            points=[]
             ),
         )
 
@@ -123,7 +129,8 @@ def find_errors(device: Device, parameters: list[Parameter]) -> list[Error_Dto]:
         errors.append(Error_Dto(
             code="current", 
             label="Критический нагрев силового соединения. Риск отгорания фазы или возгорания",
-            advice="Немедленно обесточить и протянуть клеммы"
+            advice="Немедленно обесточить и протянуть клеммы",
+            points=[]
             ),
         )
 
